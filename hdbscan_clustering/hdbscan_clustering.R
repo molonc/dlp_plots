@@ -33,7 +33,7 @@ options(tidyverse.quiet = TRUE)
 
 ## Reference: please cite the signals package if you use these scripts
 ## https://github.com/shahcompbio/signals
-## Noted: original version from Tyler Funnel 
+## Noted: original version from Tyler Funnel
 ## Modified scripts by Hoa Tran
 ## Hoa: adding some scripts to run this function but main functions are from signal packgage, Marc William
 ## Note: comment main() function in this file
@@ -66,7 +66,7 @@ main <- function(){
   
   length(libs)
   
-  ## Note: 
+  ## Note:
   # Library id: A144171A, sample id: AT23026 (not id A144171B as original one) due to pooled samples
   # Library id: A144171A, sample id: AT23025
   # → Building 2 heatmaps for 2 different sample ids
@@ -148,7 +148,6 @@ main <- function(){
                    pctcells = 0.05, min_dist_grain_level = 0.1,
                    remove_outliers=TRUE, probJump=0.995, probAVG=0.995)
     }  
-  }
-  
+  }  
 }
 # main()

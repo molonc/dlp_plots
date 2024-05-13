@@ -113,3 +113,46 @@ if(remove_outliers){
     copynumber <- copynumber[,cells_used]
     # dim(copynumber)
   }
+
+  ## Input hmmcopy reads file
+  reads_df <- data.table::fread(reads_fn) %>% as.data.frame()
+
+  reads_df <- reads_df %>%
+    dplyr::filter(cell_id %in% cells_used)
+
+  reads_df <- reads_df %>%
+    dplyr::filter(chr_desc %in% res$filtered_chr_regions)  
+
+  # print(dim(reads_df))
+  ncells <- length(unique(reads_df$cell_id))
+
+  min_cell_per_cluster <- 10
+
+  # min_dist: minimum distance between embedded points, smaller values more clusters, default 0.1
+  clusters <- signals::umap_clustering(reads_df,
+                                        minPts = max(round(pctcells * ncells), min_cell_per_cluster),
+                                        field = "copy",
+                                        min_dist = 0.1)
+
+  tree <- clusters$tree
+  clones <- clusters$clustering
+
+  print(summary(as.factor(clones$clone_id)))
+  res_clones <- unique(clones$clone_id)
+
+  if('0' %in% res_clones & !'None' %in% res_clones){
+    clones$clone_id <- ifelse(clones$clone_id=='0','None',clones$clone_id)
+  }
+
+  output_fn <- paste0(save_dir,'_hdbscan_cell_cn_tree_heatmap.png')
+  png(output_fn, height = 2*700, width=2*1200, res = 2*72)
+  make_cell_copynumber_tree_heatmap(
+    tree, copynumber, clones, NULL, grouping_file
+  )
+  dev.off()
+
+  make_cell_copynumber_tree_heatmap(
+        tree, copynumber, clones, NULL, grouping_file
+    )
+
+                                                  }
