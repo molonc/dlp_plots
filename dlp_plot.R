@@ -1,3 +1,4 @@
+## Install the following package to visualize data. 
 require('ape')
 require('argparse')
 require('dplyr')
@@ -12,8 +13,10 @@ require("data.table")
 options(dplyr.summarise.inform = FALSE)
 options(tidyverse.quiet = TRUE)
 
-input_directory <- "/projects/molonc/scratch/sbeatty/SCY-298/data/A144168B"
-metadata <- "/projects/molonc/scratch/sbeatty/SCY-298/metadata/leap114groupings.csv"
+# input_directory <- "/projects/molonc/scratch/sbeatty/SCY-298/data/A144168B"
+input_directory <- "~/dlp_hdbscan_clustering/hdbscan_clustering/testing_data"
+# metadata <- "/projects/molonc/scratch/sbeatty/SCY-298/metadata/leap114groupings.csv"
+metadata <- "~/dlp_hdbscan_clustering/hdbscan_clustering/SC-8888/library_grouping.csv"
 
 
 hdbscran_viz <- function(filtered_CNV_fn, reads_fn,
@@ -22,7 +25,8 @@ hdbscran_viz <- function(filtered_CNV_fn, reads_fn,
                          remove_outliers=TRUE, probJump=0.995, probAVG=0.995){
 
 ### identify input files  
-hmmcopy_reads_filtered_states_path <- paste0(input_directory,"/","hmmcopy/reads_filtered.csv.gz")
+# hmmcopy_reads_filtered_states_path <- paste0(input_directory,"/","hmmcopy/reads_filtered.csv.gz")
+hmmcopy_reads_filtered_states_path <- paste0(input_directory, "/", "A98166B_reads.csv.gz")
 
 
 ### read in input files 
@@ -100,7 +104,7 @@ remove_outliers <- TRUE
 if(remove_outliers){
     jump_rank <- compute_jump_cells(copynumber)
     # # Filter cells by jump/stuff
-    bad_cells <- jump_rank %>% dplyr::filter( njumps > quantile(x=njumps, probs = probJump) 
+    bad_cells <- jump_rank %>% dplyr::filter(njumps > quantile(x=njumps, probs = probJump) 
                                               | avgCNA > quantile(x=avgCNA, probs = probAVG)) %>% dplyr::select(cell_id)
     # bad_cells <- jump_rank %>% dplyr::filter( njumps > quantile(x=njumps, probs = prob)) %>% dplyr::select(cell_id)
     
@@ -155,4 +159,6 @@ if(remove_outliers){
         tree, copynumber, clones, NULL, grouping_file
     )
 
-                                                  }
+}
+
+
